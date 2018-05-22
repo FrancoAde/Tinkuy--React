@@ -3,11 +3,21 @@ import { Link } from 'react-router-dom'
 
 import '../assets/css/register.css'
 
+import AuthService from '../../actions/AuthService'
+
+
 class Register extends Component{
     constructor(...props){
         super(...props)
         this.state={
+          
+        }
+        this.Auth= new AuthService()
+    }
 
+    componentWillMount(){
+        if(this.Auth.loggedIn()){
+            this.props.history.replace('/')
         }
     }
 
@@ -68,7 +78,7 @@ class Register extends Component{
                             </div>
                         </div>  
                         <div className="buttons">
-                            <Link to="/" className="return">Cancelar</Link>
+                            <Link to="/login" className="return">Cancelar</Link>
                             <input type="submit" value="Registrar" className="submit"/>
                         </div>                                                               
                     </form>

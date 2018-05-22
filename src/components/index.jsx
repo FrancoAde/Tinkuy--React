@@ -9,9 +9,6 @@ import Error404 from './pages/Error404'
 class Chasqui extends Component {
     constructor(...props){
         super(...props)
-        this.state={
-            private: false
-        }    
     }
 
     render(){
@@ -19,9 +16,9 @@ class Chasqui extends Component {
             <Router>
                 <div>
                     <Switch>
-                        <Route exact path="/" component={Login}/>
-                        <Route path='/register' component={Register}/>
-                        <Route path='/home' component={Home}/>
+                        <Route exact path="/" component={Home}/>
+                        <Route exact path='/register' component={Register}/>
+                        <Route exact path='/login' component={Login}/>
                         <Route path='*' component={Error404}/>
                     </Switch>
                 </div>

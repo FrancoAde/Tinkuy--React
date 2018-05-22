@@ -24,11 +24,18 @@
     }
     .container-form{
         background-color: white;
-        padding: 40px 25px 30px;
+        padding: 30px 25px 30px;
         margin-bottom: 40px;
 
         .login-user{
-        
+            .error{
+                font-size: .8rem;
+                color: red;
+                font-family: $font-paragraph;
+                text-align: center;
+                padding-bottom: 15px;
+                transition: .2s all;
+            }
         }
         
         .input-field{

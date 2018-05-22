@@ -5,7 +5,7 @@ import '../assets/css/login.css'
 import logo from '../assets/images/logo.png'
 import $ from 'jquery'
 
-import axios from 'axios'
+import AuthService from '../../actions/AuthService'
 
 class Login extends Component{
     constructor(...props){
@@ -18,10 +18,17 @@ class Login extends Component{
 
         this.handleOnFocusInput= this.handleOnFocusInput.bind(this)
         this.handleOnShowFade= this.handleOnShowFade.bind(this)
+
         this.onChange = this.onChange.bind(this)
-        this.login= this.login.bind(this)
+        this.handleFormSubmit= this.handleFormSubmit.bind(this)
+        this.Auth = new AuthService()
     }
 
+    componentWillMount(){
+        if(this.Auth.loggedIn()){
+            this.props.history.replace('/')
+        }
+    }
     
     handleOnFocusInput(e){
         $('#visibility').css('display', 'block')       
@@ -45,26 +52,22 @@ class Login extends Component{
         })
     }
 
-    login(e){
-        e.preventDefault()
-        const user = {
-            email: this.state.email,
-            password: this.state.password
-        }
-        console.log(this.state.email);  
+    handleFormSubmit(e){
+        e.preventDefault();
+        this.Auth.login(this.state.email, this.state.password)
+            .then(res =>{
+                this.props.history.replace('/');
+            })
+            .catch(err =>{
+                this.error()
+            })
+    }
 
-        return axios.post('http://206.189.175.34:8000/api/v1/auth/login', user)
-        .then( response => {
-            console.log(response)
-            this.props.history.replace('/home')
-        })
-        .catch(
-            err =>{
-            console.log(err)
-            alert("Datos incorrectos intentalo de nuevo !!")
-            }
-        )
-        
+    error(){
+        let contentError = document.getElementById("form-error")
+        let form = document.getElementById("login-user")
+        contentError.textContent="Datos Incorrectos, Intentalo de nuevo !"
+        form.reset()
     }
     render(){
         
@@ -74,14 +77,14 @@ class Login extends Component{
                     <img  className="logo" src={logo} alt="logo - Chasqui" title="Team Chasqui"/>
                 </div>
                 <div className="container-form box-width">        
-                    <form action="" className="login-user" id="login-user">
+                    <form className="login-user" id="login-user" onSubmit={this.handleFormSubmit}>
                         <div className="error" id="form-error"></div>
                         <div className="form-input input-field">
                             <input 
                                 type= "email"  
                                 id= "user-username" 
                                 name= "email" 
-                                required
+                            
                                 autoFocus
                                 autoComplete= "off"
                                 value= {this.state.email}
@@ -109,7 +112,7 @@ class Login extends Component{
                             <Link to="/register">Si no tiene acceso, registrese!</Link>
                         </div>
                         <div className="form-input btn">
-                            <input type="submit"  value="Ingresar"  onClick={this.login}/>                           
+                            <input type="submit"  value="Ingresar"/>                           
                         </div>                      
                     </form>
                 </div>
