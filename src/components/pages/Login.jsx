@@ -7,7 +7,6 @@ import $ from 'jquery'
 
 import axios from 'axios'
 
-
 class Login extends Component{
     constructor(...props){
         super(...props)
@@ -52,24 +51,20 @@ class Login extends Component{
             email: this.state.email,
             password: this.state.password
         }
-        console.log(this.state.email);
-        console.log(this.state.password);
+        console.log(this.state.email);  
 
-       
-
-       
+        return axios.post('http://206.189.175.34:8000/api/v1/auth/login', user)
+        .then( response => {
+            console.log(response)
+            this.props.history.replace('/home')
+        })
+        .catch(
+            err =>{
+            console.log(err)
+            alert("Datos incorrectos intentalo de nuevo !!")
+            }
+        )
         
-    
-
-
-    //    this.Auth.login(this.state.email, this.state.password)
-    //     .then( res => {
-    //         this.props.history.replace('/')
-    //         console.log(res);
-    //     })
-    //     .catch(err => {
-    //         alert(err)
-    //     })
     }
     render(){
         
@@ -86,7 +81,7 @@ class Login extends Component{
                                 type= "email"  
                                 id= "user-username" 
                                 name= "email" 
-                                required 
+                                required
                                 autoFocus
                                 autoComplete= "off"
                                 value= {this.state.email}
@@ -102,7 +97,7 @@ class Login extends Component{
                                 type= "password"  
                                 id= "user-password" 
                                 name= "password" 
-                                required 
+                                required
                                 onFocus= {this.handleOnFocusInput}
                                 value= {this.state.password}
                                 onChange= {this.onChange}
