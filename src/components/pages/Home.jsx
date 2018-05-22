@@ -9,7 +9,7 @@ import Header from '../helpers/Header'
 import Menu from '../helpers/Menu'
 import RegisterServices from  '../helpers/RegisterServices'
 import ListServices from '../helpers/ListServices'
-
+import withAuth from '../../actions/withAuth'
 import AuthService from '../../actions/AuthService'
 const Auth = new AuthService()
 
@@ -52,4 +52,4 @@ class Home extends Component{
     }
 }
 
-export default Home
+export default withAuth(Home)
